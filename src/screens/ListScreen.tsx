@@ -28,8 +28,9 @@ const ListScreen: React.FC<Props> = () => {
         }));
     };
 
+    // HandleClearCompleted filters and delete all completed tasks.
     const handleClearCompleted = () => {
-        setTasks([]);
+        setTasks(tasks => tasks.filter(tasks => !tasks.isComplete));
     }
 
     return (
@@ -45,7 +46,7 @@ const ListScreen: React.FC<Props> = () => {
             <input value={newTaskLabel} 
             onChange={handleNewTaskLabelChange} 
             onKeyPress={handleNewTaskKeyChange} />
-            <button onClick={handleClearCompleted}>Clear All</button>
+            <div><button onClick={handleClearCompleted}>Clear Completed tasks</button></div>
 
         </div>
     )
