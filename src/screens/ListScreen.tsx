@@ -1,11 +1,13 @@
 import { nanoid } from "nanoid";
 import React, {ChangeEvent, KeyboardEvent, useState} from "react";
+import { resolveTripleslashReference } from "typescript";
 
 type Props = {}
 
 type Task = {
     id : string;
     label: string;
+    isComplete: boolean;
 }
 
 const ListScreen: React.FC<Props> = () => {
@@ -14,19 +16,40 @@ const ListScreen: React.FC<Props> = () => {
     const handleNewTaskLabelChange = (e: ChangeEvent<HTMLInputElement>) => setNewTaskLabel(e.target.value)
     const handleNewTaskKeyChange = (e: KeyboardEvent<HTMLInputElement>) => {
         if (e.key === "Enter" && newTaskLabel !== '') {
-            setTasks((tasks) => [...tasks, {id: nanoid(), label : newTaskLabel}]);
+            setTasks((tasks) => [...tasks, {id: nanoid(), label : newTaskLabel, isComplete:false}]);
             setNewTaskLabel("");
         }
     }; 
-    
+
+    const handleCompleteChange = (handledTask: Task) => (e: ChangeEvent<HTMLInputElement>) => {
+        setTasks(tasks=>tasks.map(task=>{
+            if(task.id === handledTask.id) return {...task, isComplete:e.target.checked};
+            return task;
+        }));
+    };
+
+    const handleClearCompleted = () => {
+        setTasks([]);
+    }
+
     return (
         <div>
-            <ul>
-                {tasks.map((task) => (<li key={task.id}>{task.label}</li>))}
-            </ul>
-            <input value={newTaskLabel} onChange={handleNewTaskLabelChange} onKeyPress={handleNewTaskKeyChange} />
+            <div>
+                {tasks.map((task) => (
+                    <div key={task.id}>
+                        <input type="checkbox" checked={task.isComplete} onChange={handleCompleteChange(task)} />{task.label}
+                    </div>
+                
+                ))}
             </div>
+            <input value={newTaskLabel} 
+            onChange={handleNewTaskLabelChange} 
+            onKeyPress={handleNewTaskKeyChange} />
+            <button onClick={handleClearCompleted}>Clear All</button>
+
+        </div>
     )
-}
+} 
+
 
 export default ListScreen
