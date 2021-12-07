@@ -30,7 +30,12 @@ const ListScreen: React.FC<Props> = () => {
 
     // HandleClearCompleted filters and delete all completed tasks.
     const handleClearCompleted = () => {
-        setTasks(tasks => tasks.filter(tasks => !tasks.isComplete));
+        setTasks(tasks => tasks.filter(task => !task.isComplete));
+    }
+
+    // handleTaskDelete deletes a task 
+    const handleTaskDelete = (handledTask : Task) => () => {
+        setTasks(tasks => tasks.filter(task=> task !== handledTask))
     }
 
     return (
@@ -38,7 +43,7 @@ const ListScreen: React.FC<Props> = () => {
             <div>
                 {tasks.map((task) => (
                     <div key={task.id}>
-                        <input type="checkbox" checked={task.isComplete} onChange={handleCompleteChange(task)} />{task.label}
+                        <input type="checkbox" checked={task.isComplete} onChange={handleCompleteChange(task)} />{task.label}<button onClick={handleTaskDelete(task)}>delete</button>
                     </div>
                 
                 ))}
