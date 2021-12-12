@@ -1,16 +1,21 @@
+import { computeHeadingLevel } from "@testing-library/react";
 import { nanoid } from "nanoid";
 import React, {ChangeEvent, KeyboardEvent, useState} from "react";
 import { resolveTripleslashReference } from "typescript";
+import { TasksProps } from "../types"
 
+type Props = TasksProps & {};
 
-const FocusScreen: React.FC = () => {
-
-    return (
+const FocusScreen: React.FC<Props> = ({tasks}) => {
+    const task = tasks[0];
+    console.log(task)
+    return task ?
         <div>
-          Focus View
+          {task.label}
         </div>
-    )
+    : <div>No tasks.</div>
 } 
+
 
 
 export default FocusScreen
