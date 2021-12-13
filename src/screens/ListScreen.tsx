@@ -50,6 +50,15 @@ const Input = styled.input`
     border-radius: 15px;
     color: #fff;
     margin-bottom: 20px;
+    ::placeholder,
+    ::-webkit-input-placeholder {
+      font-size: 20px;
+      font-weight: bold;
+    }
+    :-ms-input-placeholder {
+      font-size: 20px;
+      font-weight: bold;
+    }
 `
 
 
@@ -104,7 +113,7 @@ const ListScreen: React.FC<Props> = () => {
             </List>
             <Input value={newTaskLabel} 
             onChange={handleNewTaskLabelChange} 
-            onKeyPress={handleNewTaskKeyChange} placeholder="Add a task"/>
+            onKeyPress={handleNewTaskKeyChange} placeholder="Add a task here..."/>
             <TextButton onClick={handleClearCompleted}>Clear Completed tasks</TextButton>
 
         </Container>

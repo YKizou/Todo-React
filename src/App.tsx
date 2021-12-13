@@ -70,7 +70,7 @@ function App() {
   return (
     <>
       <GlobalStyle />
-      <BrowserRouter> 
+      <BrowserRouter basename={'/projects/todo'}> 
         <TaskContext.Provider value={[tasks, setTasks]}>
           <Layout>
             <Nav>
