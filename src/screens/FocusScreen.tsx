@@ -2,17 +2,17 @@ import { computeHeadingLevel } from "@testing-library/react";
 import { nanoid } from "nanoid";
 import React, {ChangeEvent, KeyboardEvent, useState} from "react";
 import { resolveTripleslashReference } from "typescript";
-import { TasksProps } from "../types"
+import { tasksApi, Task } from "../types"
 
-type Props = TasksProps & {};
+type Props = tasksApi & {};
 
-const FocusScreen: React.FC<Props> = ({tasks}) => {
-    const task = tasks[0];
-    console.log(task)
-    return task ?
+const FocusScreen: React.FC<Props> = ({tasks, setTasks, updateTaskCompletion}) => {
+    const UncompletedTasks = tasks.filter( task =>  task.isComplete === false);
+
+    return UncompletedTasks[0] ?
         <div>
-          {task.label}
-        </div>
+          {UncompletedTasks[0].label}<br/>
+          <button onClick={() => updateTaskCompletion(UncompletedTasks[0].id, true)}>Complete Task</button>        </div>
     : <div>No tasks.</div>
 } 
 

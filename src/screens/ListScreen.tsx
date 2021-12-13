@@ -1,8 +1,10 @@
 import { nanoid } from "nanoid";
 import React, {ChangeEvent, KeyboardEvent, useState} from "react";
 import { resolveTripleslashReference } from "typescript";
+import { tasksApi } from "../types"
 
-type Props = {}
+
+type Props = tasksApi & {};
 
 type Task = {
     id : string;
@@ -10,8 +12,7 @@ type Task = {
     isComplete: boolean;
 }
 
-const ListScreen: React.FC<Props> = () => {
-    const [tasks, setTasks] = useState<Task[]>([]);
+const ListScreen: React.FC<Props> = ({tasks, setTasks, updateTaskCompletion}) => {
     const [newTaskLabel, setNewTaskLabel] = useState('');
     const handleNewTaskLabelChange = (e: ChangeEvent<HTMLInputElement>) => setNewTaskLabel(e.target.value)
     const handleNewTaskKeyChange = (e: KeyboardEvent<HTMLInputElement>) => {
@@ -21,11 +22,8 @@ const ListScreen: React.FC<Props> = () => {
         }
     }; 
 
-    const handleCompleteChange = (handledTask: Task) => (e: ChangeEvent<HTMLInputElement>) => {
-        setTasks(tasks=>tasks.map(task=>{
-            if(task.id === handledTask.id) return {...task, isComplete:e.target.checked};
-            return task;
-        }));
+    const handleCompleteChange = (task: Task) => (e: ChangeEvent<HTMLInputElement>) => {
+        updateTaskCompletion(task.id, e.target.checked)
     };
 
     // HandleClearCompleted filters and delete all completed tasks.
