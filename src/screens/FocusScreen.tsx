@@ -6,13 +6,23 @@ import { tasksApi, Task } from "../types"
 
 type Props = tasksApi & {};
 
-const FocusScreen: React.FC<Props> = ({tasks, setTasks, updateTaskCompletion}) => {
-    const UncompletedTasks = tasks.filter( task =>  task.isComplete === false);
+const FocusScreen: React.FC<Props> = ({tasks, setTasks, updateTaskCompletion, focusedTask, shuffleFocusedTask}) => {
 
-    return UncompletedTasks[0] ?
+    // const UncompletedTask: Task  = UncompletedTasks[0]
+
+    // const handlePassTask = (Tasks : (Task | undefined)[]) => {
+    //   Tasks.push(Tasks.shift());
+    //   UncompletedTasks = Tasks!;
+    //   console.log(Tasks, UncompletedTask); 
+    // }
+
+    return focusedTask ?
         <div>
-          {UncompletedTasks[0].label}<br/>
-          <button onClick={() => updateTaskCompletion(UncompletedTasks[0].id, true)}>Complete Task</button>        </div>
+          {focusedTask.label}<br/>
+          <button onClick={() => updateTaskCompletion(focusedTask.id, true)}>Complete Task</button>        
+          <button onClick={() => shuffleFocusedTask(tasks)}> Give me another Task</button>        
+
+        </div>
     : <div>No tasks.</div>
 } 
 

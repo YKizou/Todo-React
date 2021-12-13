@@ -8,5 +8,7 @@ export type Task = {
 export type tasksApi = {
   tasks: Task[];
   setTasks: React.Dispatch<React.SetStateAction<Task[]>>;
-  updateTaskCompletion: (taskId: string, isComplete:boolean) => void
+  updateTaskCompletion: (taskId: string, isComplete:boolean) => void;
+  focusedTask: Task | undefined;
+  shuffleFocusedTask: (tasks: Task[]) => void;
 };
