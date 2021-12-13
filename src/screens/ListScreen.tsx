@@ -4,6 +4,53 @@ import { resolveTripleslashReference } from "typescript";
 import TaskContext from "../contexts/task-store";
 import useTaskStore from "../hooks/use-task-store";
 import { tasksApi } from "../types"
+import styled from "styled-components";
+import { TextButton } from "../styles";
+import DeleteIcon from "../icons/DeleteIcon";
+
+
+const Container = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: center;
+    width:80vw;
+`
+
+
+const List = styled.div`
+    background: rgba(255,255, 255, 0.1); 
+    border-radius: 15px;
+    margin-bottom: 30px;
+    padding: 50px 20px;
+`
+
+const ListItem = styled.div`
+    padding: 8px;
+    display: flex;
+`
+const Label = styled.label`
+    flex: 1;
+`
+const DeleteTask = styled.label`
+    cursor: pointer;
+
+    &:hover {
+        transition: transform 0.2s ease-in;
+        transform: rotate(45deg);
+
+    }
+
+`
+
+const Input = styled.input`
+    background: #000;
+    border: none;
+    padding: 20px 24px;
+    border-radius: 15px;
+    color: #fff;
+    margin-bottom: 20px;
+`
 
 
 type Props = {};
@@ -41,21 +88,26 @@ const ListScreen: React.FC<Props> = () => {
     }
 
     return (
-        <div>
-            <div>
+        <Container>
+            <List>
                 {tasks.map((task) => (
-                    <div key={task.id}>
-                        <input type="checkbox" checked={task.isComplete} onChange={handleCompleteChange(task)} />{task.label}<button onClick={handleTaskDelete(task)}>delete</button>
-                    </div>
+                    <ListItem key={task.id}>
+                        <Label>
+                            <input type="checkbox" checked={task.isComplete} onChange={handleCompleteChange(task)} />{task.label}
+                        </Label>
+                        <DeleteTask onClick={handleTaskDelete(task)}>
+                           <DeleteIcon />
+                        </DeleteTask>
+                    </ListItem>
                 
                 ))}
-            </div>
-            <input value={newTaskLabel} 
+            </List>
+            <Input value={newTaskLabel} 
             onChange={handleNewTaskLabelChange} 
-            onKeyPress={handleNewTaskKeyChange} />
-            <div><button onClick={handleClearCompleted}>Clear Completed tasks</button></div>
+            onKeyPress={handleNewTaskKeyChange} placeholder="Add a task"/>
+            <TextButton onClick={handleClearCompleted}>Clear Completed tasks</TextButton>
 
-        </div>
+        </Container>
     )
 } 
 

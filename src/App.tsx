@@ -13,7 +13,53 @@ import { Task, tasksApi } from "./types"
 import useLocalStorage from "./hooks/use-local-storage";
 import useTaskStore from "./hooks/use-task-store";
 import TaskContext from "./contexts/task-store";
+import styled from "styled-components";
+import { colors, GlobalStyle } from "./styles";
 
+
+const Layout = styled.div`
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
+  padding : 35px;
+
+
+`
+
+const Nav = styled.nav`
+  display: flex;
+  margin-bottom: 45px;
+
+
+`
+
+
+const TabButton = styled(NavLink)`
+  width:120px;
+  height: 62px;
+  color : #fff;
+  background: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  
+  &:first-child {
+    border-top-left-radius: 15px;
+    border-bottom-left-radius: 15px;
+  }
+
+  &:last-child {
+    border-top-right-radius: 15px;
+    border-bottom-right-radius: 15px;
+  }
+
+  &.active {
+      background: ${colors.primary};
+      color: #000
+  }
+`
 
 function App() {
   const [tasks, setTasks] = useLocalStorage<Task[]>('tasks',[]);
@@ -22,22 +68,25 @@ function App() {
   
 
   return (
-    <BrowserRouter> 
-       <TaskContext.Provider value={[tasks, setTasks]}>
-      <nav>
-        <NavLink to="/">List</NavLink>
-        {' '}-{' '}
-        <NavLink to="/focus">Focus</NavLink>
-      </nav>
-      <br />
+    <>
+      <GlobalStyle />
+      <BrowserRouter> 
+        <TaskContext.Provider value={[tasks, setTasks]}>
+          <Layout>
+            <Nav>
+              <TabButton to="/">List</TabButton>
+              <TabButton to="/focus">Focus</TabButton>
+            </Nav>
+            <br />
 
-      <Routes>
-        <Route path="/" element={<ListScreen/>}></Route>
-        <Route path="/focus" element={<FocusScreen/>}></Route>
-      </Routes>
-
-      </TaskContext.Provider>
-    </BrowserRouter>
+            <Routes>
+              <Route path="/" element={<ListScreen/>}></Route>
+              <Route path="/focus" element={<FocusScreen/>}></Route>
+            </Routes>
+          </Layout>
+        </TaskContext.Provider>
+      </BrowserRouter>
+    </>
 
 
 
