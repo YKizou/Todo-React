@@ -10,54 +10,20 @@ import { ReactDOM, useState, useEffect} from "react";
 import { NavLink } from "react-router-dom";
 import FocusScreen from "./screens/FocusScreen";
 import { Task, tasksApi } from "./types"
+import useLocalStorage from "./hooks/use-local-storage";
+import useTaskStore from "./hooks/use-task-store";
+import TaskContext from "./contexts/task-store";
 
 
 function App() {
-
-  const [tasks, setTasks] = useState<Task[]>([]);
-  const [focusedTask, setFocusedTask] = useState<Task>(tasks.filter( task =>  task.isComplete === false)[0]);
-
-  const updateTaskCompletion = (taskId: string, isComplete:boolean) =>  {
-    setTasks(tasks=>tasks.map(task=>{
-        if(task.id === taskId) return {...task, isComplete};
-        return task;
-    }));
-};
-
-  const UncompletedTasks = tasks.filter( task =>  task.isComplete === false);
-
-
-  const shuffleFocusedTask = () => {
-    let shuffledTasks = [...UncompletedTasks];
-    let currentIndex = shuffledTasks.length,  randomIndex;
-
-    // While there remain elements to shuffle...
-    while (currentIndex != 0) {
-  
-      // Pick a remaining element...
-      randomIndex = Math.floor(Math.random() * currentIndex);
-      currentIndex--;
-  
-      // And swap it with the current element.
-      [shuffledTasks[currentIndex], shuffledTasks[randomIndex]] = [
-        shuffledTasks[randomIndex], shuffledTasks[currentIndex]];
-    }    
-    return setFocusedTask(shuffledTasks[0]);
-  }
+  const [tasks, setTasks] = useLocalStorage<Task[]>('tasks',[]);
 
   
-  useEffect(() => {
-    shuffleFocusedTask();
-    console.log(focusedTask,tasks)
-
-  }, [tasks, focusedTask, shuffleFocusedTask])
-
-
-
-  const tasksApi = {tasks, setTasks, updateTaskCompletion, focusedTask, shuffleFocusedTask}; 
+  
 
   return (
     <BrowserRouter> 
+       <TaskContext.Provider value={[tasks, setTasks]}>
       <nav>
         <NavLink to="/">List</NavLink>
         {' '}-{' '}
@@ -66,9 +32,11 @@ function App() {
       <br />
 
       <Routes>
-        <Route path="/" element={<ListScreen {...tasksApi}/>}></Route>
-        <Route path="/focus" element={<FocusScreen {...tasksApi}/>}></Route>
+        <Route path="/" element={<ListScreen/>}></Route>
+        <Route path="/focus" element={<FocusScreen/>}></Route>
       </Routes>
+
+      </TaskContext.Provider>
     </BrowserRouter>
 
 

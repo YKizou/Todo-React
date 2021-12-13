@@ -1,10 +1,12 @@
 import { nanoid } from "nanoid";
-import React, {ChangeEvent, KeyboardEvent, useState} from "react";
+import React, {ChangeEvent, KeyboardEvent, useState, useContext} from "react";
 import { resolveTripleslashReference } from "typescript";
+import TaskContext from "../contexts/task-store";
+import useTaskStore from "../hooks/use-task-store";
 import { tasksApi } from "../types"
 
 
-type Props = tasksApi & {};
+type Props = {};
 
 type Task = {
     id : string;
@@ -12,7 +14,9 @@ type Task = {
     isComplete: boolean;
 }
 
-const ListScreen: React.FC<Props> = ({tasks, setTasks, updateTaskCompletion}) => {
+const ListScreen: React.FC<Props> = () => {
+    const {tasks, setTasks, updateTaskCompletion} = useTaskStore();
+    const value = useContext(TaskContext);
     const [newTaskLabel, setNewTaskLabel] = useState('');
     const handleNewTaskLabelChange = (e: ChangeEvent<HTMLInputElement>) => setNewTaskLabel(e.target.value)
     const handleNewTaskKeyChange = (e: KeyboardEvent<HTMLInputElement>) => {
