@@ -2,7 +2,7 @@ import styled, { createGlobalStyle } from "styled-components";
 
 
 export const colors = {
-  primary : "#FFC93F",
+  yellow_kizou : "#D9E577",
 };
 
 export const GlobalStyle = createGlobalStyle`

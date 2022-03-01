@@ -13,7 +13,8 @@ const Container = styled.div`
     flex-direction: column;
     align-items: stretch;
     justify-content: center;
-    width:80vw;
+    width:100vw;
+    height: 100xh;
 `
 
 const FocusedTask = styled.div`
@@ -28,7 +29,7 @@ const FocusedTask = styled.div`
 `
 
 const CompleteTask = styled.button`
-    background: ${colors.primary};
+    background: ${colors.yellow_kizou};
     border: none;
     padding: 20px;
     border-radius: 15px;
@@ -53,9 +54,9 @@ const FocusScreen: React.FC<Props> = () => {
 
     return focusedTask ?
         <Container>
-          <FocusedTask>{focusedTask.label}</FocusedTask>
-          <CompleteTask onClick={() => updateTaskCompletion(focusedTask.id, true)}>Complete Task</CompleteTask>        
-          <TextButton onClick={() => shuffleFocusedTask()}> Give me another Task</TextButton>        
+          <FocusedTask><code>{focusedTask.label}</code></FocusedTask>
+          <CompleteTask onClick={() => updateTaskCompletion(focusedTask.id, true)}><code>Complete Task</code></CompleteTask>        
+          <TextButton onClick={() => shuffleFocusedTask()}><code>Give me another Task</code></TextButton>        
 
         </Container>
     : <div>No tasks.</div>

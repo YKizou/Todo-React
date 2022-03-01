@@ -14,13 +14,13 @@ const Container = styled.div`
     flex-direction: column;
     align-items: stretch;
     justify-content: center;
-    width:80vw;
+    width:60vw;
 `
 
 
 const List = styled.div`
     background: rgba(255,255, 255, 0.1); 
-    border-radius: 15px;
+    border-radius: 0.25rem;
     margin-bottom: 30px;
     padding: 50px 20px;
 `
@@ -47,17 +47,18 @@ const Input = styled.input`
     background: #000;
     border: none;
     padding: 20px 24px;
-    border-radius: 15px;
+    border-radius: 0.25rem;
     color: #fff;
     margin-bottom: 20px;
     ::placeholder,
     ::-webkit-input-placeholder {
       font-size: 20px;
-      font-weight: bold;
+      font-family: "Lucida Console","Courier New", monospac;
     }
     :-ms-input-placeholder {
       font-size: 20px;
       font-weight: bold;
+      font-family: "Lucida Console","Courier New", monospac;
     }
 `
 
@@ -102,7 +103,7 @@ const ListScreen: React.FC<Props> = () => {
                 {tasks.map((task) => (
                     <ListItem key={task.id}>
                         <Label>
-                            <input type="checkbox" checked={task.isComplete} onChange={handleCompleteChange(task)} />{task.label}
+                            <input type="checkbox" checked={task.isComplete} onChange={handleCompleteChange(task)} /><code>{task.label}</code>
                         </Label>
                         <DeleteTask onClick={handleTaskDelete(task)}>
                            <DeleteIcon />
@@ -114,7 +115,7 @@ const ListScreen: React.FC<Props> = () => {
             <Input value={newTaskLabel} 
             onChange={handleNewTaskLabelChange} 
             onKeyPress={handleNewTaskKeyChange} placeholder="Add a task here..."/>
-            <TextButton onClick={handleClearCompleted}>Clear Completed tasks</TextButton>
+            <TextButton onClick={handleClearCompleted}><code>Clear Completed tasks</code></TextButton>
 
         </Container>
     )
