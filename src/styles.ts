@@ -1,8 +1,7 @@
 import styled, { createGlobalStyle } from "styled-components";
 
-
 export const colors = {
-  yellow_kizou : "#D9E577",
+  yellow_todo: "#D9E577",
 };
 
 export const GlobalStyle = createGlobalStyle`
@@ -18,11 +17,9 @@ export const GlobalStyle = createGlobalStyle`
   }
 `;
 
-
 export const TextButton = styled.button`
   background: none;
   border: none;
   color: #b8b8b8;
   font-size: 14px;
 `;
-
